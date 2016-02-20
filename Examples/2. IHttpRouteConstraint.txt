@@ -1,0 +1,37 @@
+        public IHttpActionResult Get(string id)
+        {
+            int identifier;
+            var card = int.TryParse(id, out identifier) ?
+                _context.Cards.SingleOrDefault(c => c.Id == identifier) :
+                _context.Cards.SingleOrDefault(c => c.Name == id);
+            if (card != null)
+            {
+                return Ok(card);
+            }
+            return NotFound();
+        }
+
+        2.1
+        2.2
+
+        ---
+        
+        public Card Get(int id)
+        {
+            return _context.Cards.SingleOrDefault(c => c.Id == id);
+        }
+
+        public Card Get(string id)
+        {
+            return _context.Cards.SingleOrDefault(c => c.Name == id);
+        }
+
+        2.1
+        2.2
+
+        ---
+
+        [Route("cards/{id:int}")] - OK
+
+        2.1
+        2.2

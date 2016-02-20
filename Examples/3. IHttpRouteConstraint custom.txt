@@ -1,0 +1,19 @@
+
+    class LegalColorConstraint : IHttpRouteConstraint
+    {
+        public bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName, IDictionary<string, object> values,
+            HttpRouteDirection routeDirection)
+        {
+            return new[] { "blanco", "rojo", "negro", "azul", "verde" }.Contains(values[parameterName].ToString().ToLower());
+        }
+    }
+
+    [Route("cards/{color:legalcolor}")]
+    public IEnumerable<Card> GetByColor(string color)
+    {
+        return _context.Cards.Where(c => c.Color == color);
+    }
+
+    var resolver = new DefaultInlineConstraintResolver();
+    resolver.ConstraintMap.Add("legalcolor", typeof(LegalColorConstraint));
+    config.MapHttpAttributeRoutes(resolver);

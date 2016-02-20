@@ -1,0 +1,44 @@
+        public HttpResponseMessage Get()
+        {
+            var response = Request.CreateResponse(HttpStatusCode.OK, _context.Cards.ToList());
+            response.Headers.Add("X-Powered-By", "Tajamar");
+            return response;
+        }
+
+        public HttpResponseMessage Get(int id)
+        {
+            var response = Request.CreateResponse(HttpStatusCode.OK, _context.Cards.SingleOrDefault(c => c.Id == id));
+            response.Headers.Add("X-Powered-By", "Tajamar");
+            return response;
+        }
+
+
+            class PoweredBy<T>:IHttpActionResult
+    {
+        private readonly HttpRequestMessage _request;
+        private readonly T _value;
+
+        public PoweredBy(HttpRequestMessage request, T value)
+        {
+            _request = request;
+            _value = value;
+        }
+
+        public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
+        {
+            var response = _request.CreateResponse(HttpStatusCode.OK, _value);
+            response.Headers.Add("X-Powered-By", "Tajamar");
+            return Task.FromResult(response);
+        }
+    }
+
+
+        public IHttpActionResult Get()
+        {
+            return new PoweredBy<IEnumerable<Card>>(Request, _context.Cards.ToList());
+        }
+
+        public IHttpActionResult Get(int id)
+        {
+            return new PoweredBy<Card>(Request, _context.Cards.SingleOrDefault(c => c.Id == id));
+        }

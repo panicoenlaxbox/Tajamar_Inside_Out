@@ -1,0 +1,9 @@
+Install-Package CacheCow.Server
+
+Dependencia de Microsoft.Web.Infrastructure
+	DotPeek -> System.Web
+
+            var cacheCowCacheHandler = new CacheCow.Server.CachingHandler(config);
+            config.MessageHandlers.Add(cacheCowCacheHandler);
+
+            

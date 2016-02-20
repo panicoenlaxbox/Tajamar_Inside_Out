@@ -1,0 +1,84 @@
+       //public HttpResponseMessage Get(int id)
+        //{
+        //    var deck = _context.Decks.Include(d => d.Cards).Single(d => d.Id == id);
+        //    var model = new
+        //    {
+        //        deck.Id,
+        //        deck.Name,
+        //        Cards = from c in deck.Cards
+        //                select new
+        //                {
+        //                    c.Id,
+        //                    c.Name,
+        //                    c.Color,
+        //                    c.Cost,
+        //                    c.Type,
+        //                    c.CardText,
+        //                    c.FlavorText,
+        //                    c.ImageUrl,
+        //                    DeckUrl = Url.Link("DefaultApi", new { id = c.Id })
+        //                }
+        //    };
+        //    return Request.CreateResponse(HttpStatusCode.OK, model);
+        //}
+
+        //public HttpResponseMessage Get(int id)
+        //{
+        //    var deck = _context.Decks.Include(d => d.Cards).Single(d => d.Id == id);
+        //    dynamic model = new ExpandoObject();
+        //    model.Id = deck.Id;
+        //    model.Name = deck.Name;
+        //    var cards = new Collection<ExpandoObject>();
+        //    foreach (var card in deck.Cards)
+        //    {
+        //        var newCard = new ExpandoObject() as IDictionary<string, Object>; ;
+        //        newCard["Id"] = card.Id;
+        //        newCard["Name"] = card.Name;
+        //        newCard["Color"] = card.Color;
+        //        newCard["Cost"] = card.Cost;
+        //        newCard["Type"] = card.Type;
+        //        newCard["CardText"] = card.CardText;
+        //        newCard["FlavorText"] = card.FlavorText;
+        //        newCard["ImageUrl"] = card.ImageUrl;
+        //        newCard["DeckUrl"] = Url.Link("DefaultApi", new { id = card.Id });
+        //        cards.Add((ExpandoObject)newCard);
+        //    }
+        //    model.Cards = cards;
+        //    return Request.CreateResponse(HttpStatusCode.OK, (ExpandoObject)model);
+        //}
+
+        //public HttpResponseMessage Get(int id)
+        //{
+        //    var deck = _context.Decks.Include(d => d.Cards).Single(d => d.Id == id);
+        //    var model = new JObject
+        //    {
+        //        { "id", deck.Id },
+        //        { "name", deck.Name }
+        //    };
+        //    var cards = new JArray();
+        //    foreach (var card in deck.Cards)
+        //    {
+        //        cards.Add(JObject.FromObject(
+        //            new
+        //            {
+        //                id = card.Id,
+        //                name = card.Name,
+        //                color = card.Color,
+        //                cost = card.Cost,
+        //                type = card.Type,
+        //                cardText = card.CardText,
+        //                flavorText = card.FlavorText,
+        //                imageUrl = card.ImageUrl,
+        //                deckUrl = Url.Link("DefaultApi", new { id = card.Id })
+        //            }));
+        //    }
+        //    model.Add("cards", cards);
+
+        //    //return Request.CreateResponse(HttpStatusCode.OK, model);
+
+        //    var response = new HttpResponseMessage(HttpStatusCode.OK)
+        //    {
+        //        Content = new StringContent(model.ToString())
+        //    };
+        //    return response;
+        //}

@@ -1,0 +1,33 @@
+    public class FirstMessageHandler : DelegatingHandler
+    {
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            Debug.Print("FirstMessageHandler pre-processing");
+            var response = await base.SendAsync(request, cancellationToken);
+            Debug.Print("FirstMessageHandler post-processing");
+            return response;
+        }
+    }
+
+    public class SecondMessageHandler : DelegatingHandler
+    {
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            Debug.Print("SecondMessageHandler pre-processing");
+            var response = await base.SendAsync(request, cancellationToken);
+            Debug.Print("SecondMessageHandler post-processing");
+            return response;
+        }
+    }
+
+    public class ShortcircuitMessageHandler : DelegatingHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {            
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.BadRequest));
+        }    
+    }
+
+            config.MessageHandlers.Add(new FirstMessageHandler());
+            config.MessageHandlers.Add(new ShortcircuitMessageHandler());            
+            config.MessageHandlers.Add(new SecondMessageHandler());   

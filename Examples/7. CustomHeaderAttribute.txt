@@ -1,0 +1,23 @@
+    public class CustomHeaderAttribute : ActionFilterAttribute
+    {
+        private readonly string _name;
+        private readonly string _value;
+
+        public CustomHeaderAttribute(string name, string value)
+        {
+            _name = name;
+            _value = value;
+        }
+
+        public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
+        {
+            actionExecutedContext.Response.Headers.Add(_name, _value);
+            base.OnActionExecuted(actionExecutedContext);
+        }
+    }
+
+        [CustomHeader("X-Powered-By","Tajamar")]
+        public IEnumerable<Card> Get()
+        {
+            return _context.Cards.ToList();
+        }

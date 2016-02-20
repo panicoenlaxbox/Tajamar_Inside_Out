@@ -1,0 +1,41 @@
+    public static class AppBuilderExtensions
+    {
+        public static void UsePoweredBy(this IAppBuilder app, string by)
+        {            
+            app.Use<PoweredByMiddleware>(by);
+        }
+    }
+
+    public class PoweredByMiddleware : OwinMiddleware
+    {
+        private readonly string _by;
+
+        public PoweredByMiddleware(OwinMiddleware next, string by) : base(next)
+        {
+            _by = by;
+        }
+
+        public override Task Invoke(IOwinContext context)
+        {
+            Debug.WriteLine("PoweredByMiddleware pre-processing");
+            context.Response.Headers.Append("X-Powered-by", _by);
+            var t = Next.Invoke(context);
+            Debug.WriteLine("PoweredByMiddleware post-processing");
+            return t;
+        }
+    }
+
+
+                appBuilder.UsePoweredBy("Tajamar");
+
+            appBuilder.Use(async (context, next) =>
+            {
+                Debug.WriteLine("appBuilder pre-processing");
+                var watch = Stopwatch.StartNew();
+                await next();
+                Debug.WriteLine("appBuilder post-processing");
+                watch.Stop();
+                context.Response.Headers.Append("X-Elapsed-Time", watch.Elapsed.TotalMilliseconds.ToString());
+            });
+
+            appBuilder.UseWebApi(config);

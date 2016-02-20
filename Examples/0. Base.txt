@@ -1,0 +1,43 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Reflection;
+using System.Web.Http;
+using System.Web.Http.Results;
+using Models;
+using OwinHost.Attributes;
+using OwinHost.DTO;
+using OwinHost.HttpActionResult;
+
+namespace OwinHost
+{
+    public class CardsController : ApiController
+    {
+        private readonly MagicContext _context;
+
+        public CardsController()
+        {
+            _context = new MagicContext();
+        }
+
+        public IEnumerable<Card> Get()
+        {
+            return _context.Cards.ToList();
+        }
+
+        public IEnumerable<Card> GetAngels()
+        {
+            return _context.Cards.Where(c => c.Type == "Criatura - Ángel").ToList();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+            base.Dispose(disposing);
+        }
+    }
+}
